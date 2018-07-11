@@ -55,6 +55,7 @@ CubeManager::CubeManager(unsigned int width, unsigned int height,
 
     rotateAngleAroundY = 0;
     rotateAngleAroundX = 0;
+	rotateAngleAroundZ = 0;
 }
 
 CubeManager::~CubeManager() {
@@ -175,6 +176,26 @@ void CubeManager::rotateVertical(const GLfloat& offset) {
 void CubeManager::rotateHorizontal(const GLfloat& offset) {
     rotateAngleAroundY += offset * rotateSensivitiy;
     this->refreshModelMat4();
+}
+
+void CubeManager::rotateAll(const glm::vec2& offset) {
+	rotateAngleAroundX += offset.y * rotateSensivitiy;
+	rotateAngleAroundY += offset.x * rotateSensivitiy;
+
+	for (unsigned int i = 0; i < totalCube; ++i) {
+		if (!cubes[i]->isDeleted()) {
+
+
+			//rotateAngleAroundZ += offset.y * rotateSensivitiy;
+
+			glm::mat4 model;
+			model = glm::rotate(model, glm::radians(rotateAngleAroundY), yAxis);
+			model = glm::rotate(model, glm::radians(rotateAngleAroundX), xAxis);
+			glm::mat4 final_mat = glm::translate(model, cubesOriginalPosition[i]);
+
+			cubes[i]->setModelMat4(final_mat);
+		}
+	}
 }
 
 void CubeManager::setRotateSensivity(const GLfloat& rotateSensivitiy) {

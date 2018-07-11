@@ -46,6 +46,7 @@ class CubeManager {
     // glm::vec3 rotateAngle;
     GLfloat rotateAngleAroundX;
     GLfloat rotateAngleAroundY;
+    GLfloat rotateAngleAroundZ;
     GLfloat rotateSensivitiy = 1.0f;
 
     GLBufferManager& glBufferManager;
@@ -246,6 +247,7 @@ class CubeManager {
      */
     void rotateVertical(const GLfloat& offset);
 
+    void rotateAll(const glm::vec2& offset);
     /**
      * @brief Set the Rotate Sensivity object
      * 

@@ -353,8 +353,9 @@ int main()
 					double x, y;
 					glfwGetCursorPos(window, &x, &y);
 					glm::vec2 offset = camera->updateXYoffset((float)x, (float)y);
-					cubeManager.rotateHorizontal(offset.x * 0.25);
-					cubeManager.rotateVertical(offset.y * 0.25);
+					cubeManager.rotateAll(offset);
+					//cubeManager.rotateHorizontal(offset.x * 0.25);
+					//cubeManager.rotateVertical(offset.y * 0.25);
 				}
 			}
 		}
