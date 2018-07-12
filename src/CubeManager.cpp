@@ -157,7 +157,8 @@ glm::mat4 CubeManager::calculateModelMat4(const unsigned int& id) {
     glm::mat4 model;
     model = glm::rotate(model, glm::radians(rotateAngleAroundY), yAxis);
     model = glm::rotate(model, glm::radians(rotateAngleAroundX), xAxis);
-    return glm::translate(model, cubesOriginalPosition[id]);
+	model = glm::rotate(model, glm::radians(rotateAngleAroundZ), zAxis);
+	return glm::translate(model, cubesOriginalPosition[id]);
 }
 
 void CubeManager::setAllShaderId(const GLuint& shaderID) {
@@ -180,64 +181,137 @@ void CubeManager::rotateHorizontal(const GLfloat& offset) {
 
 void CubeManager::rotateAll(const glm::vec2& offset) {
 	if (315.0f <= rotateAngleAroundX || rotateAngleAroundX < 45.0f) {
-		cout << "1\n";
 		if (315.0f <= rotateAngleAroundY || rotateAngleAroundY < 45.0f) {
 			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
 				rotateAngleAroundX += offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
 				rotateAngleAroundY += offset.y * rotateSensivitiy;
 				rotateAngleAroundX += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundY += offset.y * rotateSensivitiy;
+				rotateAngleAroundX += offset.x * rotateSensivitiy;
+			}
+		}
+		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+		}
+		else if (135.0f <= rotateAngleAroundY && rotateAngleAroundY < 225.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;  
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
 				rotateAngleAroundX -= offset.y * rotateSensivitiy;
-				rotateAngleAroundY -= offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundY += offset.y * rotateSensivitiy;
-				rotateAngleAroundX += offset.x * rotateSensivitiy;
-			}
-		}
-		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-		}
-		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 		}
 		else {
 			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundZ -= offset.y * rotateSensivitiy;  
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundZ -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundZ -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundZ -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+		}
+	}
+	else if (45.0f <= rotateAngleAroundX && rotateAngleAroundX < 135.0f) {
+		if (315.0f <= rotateAngleAroundY || rotateAngleAroundY < 45.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;  
+				rotateAngleAroundZ -= offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;  
+				rotateAngleAroundZ -= offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;  
+				rotateAngleAroundZ -= offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;  
+				rotateAngleAroundZ -= offset.x * rotateSensivitiy;
+			}
+		}
+		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
 				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;  
+				rotateAngleAroundZ += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+		}
+		else if (135.0f <= rotateAngleAroundY && rotateAngleAroundY < 225.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;  
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+		}
+		else {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;  
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
@@ -254,227 +328,150 @@ void CubeManager::rotateAll(const glm::vec2& offset) {
 			}
 		}
 	}
-	else if (45.0f <= rotateAngleAroundX || rotateAngleAroundX < 135.0f) {
-		cout << "2\n";
+	else if (135.0f <= rotateAngleAroundX && rotateAngleAroundX < 225.0f) {
 		if (315.0f <= rotateAngleAroundY || rotateAngleAroundY < 45.0f) {
 			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;  // ok
-				rotateAngleAroundZ += offset.x * rotateSensivitiy;
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;  
 			}
 			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;  // ok
-				rotateAngleAroundZ += offset.x * rotateSensivitiy;
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+		}
+		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundZ -= offset.y * rotateSensivitiy;  
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundZ -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundZ -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundZ -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+		}
+		else if (135.0f <= rotateAngleAroundY && rotateAngleAroundY < 225.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;  
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
 				rotateAngleAroundX -= offset.y * rotateSensivitiy;
-				rotateAngleAroundZ -= offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundY += offset.y * rotateSensivitiy;
-				rotateAngleAroundZ += offset.x * rotateSensivitiy;
-			}
-		}
-		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;  // ?
-				rotateAngleAroundZ += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-		}
-		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 		}
 		else {
 			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;  
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;  
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;  
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-		}
-	}
-	else if (135.0f <= rotateAngleAroundX || rotateAngleAroundX < 225.0f) {
-		cout << "3\n";
-		if (315.0f <= rotateAngleAroundY || rotateAngleAroundY < 45.0f) {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundZ -= offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundY += offset.y * rotateSensivitiy;
-				rotateAngleAroundZ += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX -= offset.y * rotateSensivitiy;
-				rotateAngleAroundZ -= offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundY += offset.y * rotateSensivitiy;
-				rotateAngleAroundZ += offset.x * rotateSensivitiy;
-			}
-		}
-		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-		}
-		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-		}
-		else {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;  
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 		}
 	}
 	else {
-		cout << "4\n";
 		if (315.0f <= rotateAngleAroundY || rotateAngleAroundY < 45.0f) {
 			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundZ -= offset.x * rotateSensivitiy;
+				rotateAngleAroundX += offset.y * rotateSensivitiy;  
+				rotateAngleAroundZ += offset.x * rotateSensivitiy;
 			}
 			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundY += offset.y * rotateSensivitiy;
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
 				rotateAngleAroundZ += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.x * rotateSensivitiy;
+			}
+		}
+		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;  
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+		}
+		else if (135.0f <= rotateAngleAroundY && rotateAngleAroundY < 225.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;  
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
 				rotateAngleAroundX -= offset.y * rotateSensivitiy;
-				rotateAngleAroundZ -= offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundY += offset.y * rotateSensivitiy;
-				rotateAngleAroundZ += offset.x * rotateSensivitiy;
-			}
-		}
-		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-		}
-		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
-			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
-				rotateAngleAroundY += offset.x * rotateSensivitiy;
-			}
-			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundX -= offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 		}
 		else {
 			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;  
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 			else {
-				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundZ += offset.y * rotateSensivitiy;
 				rotateAngleAroundY += offset.x * rotateSensivitiy;
 			}
 		}
@@ -483,10 +480,7 @@ void CubeManager::rotateAll(const glm::vec2& offset) {
 	if (rotateAngleAroundX > 360.0f) rotateAngleAroundX -= 360.0f; if (rotateAngleAroundX < 0.0f) rotateAngleAroundX = 360.0f - rotateAngleAroundX;
 	if (rotateAngleAroundY > 360.0f) rotateAngleAroundY -= 360.0f; if (rotateAngleAroundY < 0.0f) rotateAngleAroundY = 360.0f - rotateAngleAroundY;
 	if (rotateAngleAroundZ > 360.0f) rotateAngleAroundZ -= 360.0f; if (rotateAngleAroundZ < 0.0f) rotateAngleAroundZ = 360.0f - rotateAngleAroundZ;
-	//rotateAngleAroundX += offset.y * rotateSensivitiy;
-	//rotateAngleAroundY += offset.x * rotateSensivitiy;
-	//rotateAngleAroundZ += offset.y * rotateSensivitiy;
-	cout << rotateAngleAroundX << ' ' << rotateAngleAroundY << ' ' << rotateAngleAroundZ << endl;
+	//cout << rotateAngleAroundX << ' ' << rotateAngleAroundY << ' ' << rotateAngleAroundZ << endl;
 	for (unsigned int i = 0; i < totalCube; ++i) {
 		if (!cubes[i]->isDeleted()) {
 

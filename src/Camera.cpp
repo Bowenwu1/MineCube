@@ -1,4 +1,4 @@
-#include "Camera.hpp"
+	#include "Camera.hpp"
 #include <iostream>
 // default value
 const float YAW          = -90.0f;
