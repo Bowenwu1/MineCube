@@ -4,13 +4,13 @@
 
 ## Members
 
-| 学号     | 姓名   | Github                                      |
-| -------- | ------ | ------------------------------------------- |
-|          |        | [Johnny Law](https://longjj.com/)           |
-| 15331310 | 吴博文 | [Bob Wu](https://github.com/Bowenwu1)       |
-|          |        | [Jarvis](https://github.com/Ace-0)          |
-|          |        | [Mr.Gu 菇生](https://github.com/mgsweet)    |
-|          |        | [Hiyoung.Tsui](https://github.com/15331335) |
+| 学号       | 姓名   | Github                                   |
+| -------- | ---- | ---------------------------------------- |
+| 15331229 | 罗剑杰  | [Johnny Law](https://longjj.com/)        |
+| 15331310 | 吴博文  | [Bob Wu](https://github.com/Bowenwu1)    |
+|          |      | [Jarvis](https://github.com/Ace-0)       |
+|          |      | [Mr.Gu 菇生](https://github.com/mgsweet)   |
+|          |      | [Hiyoung.Tsui](https://github.com/15331335) |
 
 
 
@@ -59,7 +59,7 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 ### Basic
 
 - Camera Roaming
-- Simple lighting and shading(phong)
+- Simple lighting and shading(blinn phong)
 - Texture mapping
 - Shadow mapping
 - Cloth Simulation
@@ -90,11 +90,11 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 
 
-### Simple lighting and shading(phong)
+### Simple lighting and shading(blinn-phong)
 
+在场景的右上方有一个光源，对整个物体实现 blinn-phong 的光照效果，使得层次结构更加真实。
 
-
-
+![blinn-phong](http://or5jajfqs.bkt.clouddn.com/MineCube/blinn-phong.jpg)
 
 ### Texture mapping
 
@@ -104,9 +104,9 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ### Shadow mapping
 
+当部分小立方体被挖去之后，在适当的位置出现阴影，使得层次结构更加真实。
 
-
-
+![](http://or5jajfqs.bkt.clouddn.com/MineCube/shadow.jpg)
 
 ### Cloth Simulation
 
@@ -161,13 +161,19 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
   BasicOperation(const function<void()> & execute, const function<void()> & undo);
   ```
 
-  
 
 
 
 ## 小组成员分工
 
 - 罗剑杰 [@Johnny Law](https://longjj.com/)
+  - Cmake 配置
+  -  Shadow 实现
+  -  blinn-phong 光照实现
+  - Gamma 校正
+  - 底层框架设计 
+  - 实例化渲染 
+  - Face Culling
 - 吴博文 [@Bob Wu](https://github.com/Bowenwu1)
   * 初版底层模块构建
   * 方块增删改查
@@ -176,7 +182,6 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 - 王治鋆 [@Jarvis](https://github.com/Ace-0)
 - 邱兆丰 [@Mr.Gu 菇生](https://github.com/mgsweet)
 - 徐海洋 [@Hiyoung.Tsui](https://github.com/15331335)
-
 
 
 ---
