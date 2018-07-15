@@ -4,13 +4,13 @@
 
 ## Members
 
-| 学号       | 姓名   | Github                                   |
-| -------- | ---- | ---------------------------------------- |
-| 15331229 | 罗剑杰  | [Johnny Law](https://longjj.com/)        |
-| 15331310 | 吴博文  | [Bob Wu](https://github.com/Bowenwu1)    |
-|          |      | [Jarvis](https://github.com/Ace-0)       |
-|          |      | [Mr.Gu 菇生](https://github.com/mgsweet)   |
-|          |      | [Hiyoung.Tsui](https://github.com/15331335) |
+| 学号     | 姓名   | Github                                      |
+| -------- | ------ | ------------------------------------------- |
+| 15331229 | 罗剑杰 | [Johnny Law](https://longjj.com/)           |
+| 15331310 | 吴博文 | [Bob Wu](https://github.com/Bowenwu1)       |
+| 15331304 | 王治鋆 | [Jarvis](https://github.com/Ace-0)          |
+|          |        | [Mr.Gu 菇生](https://github.com/mgsweet)    |
+|          |        | [Hiyoung.Tsui](https://github.com/15331335) |
 
 
 
@@ -86,9 +86,9 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ### Camera Roaming
 
+按`V`键可以切换FPS模式，进行自由移动和观察。使用`WASD`移动位置，鼠标移动来控制观察方向。
 
-
-
+![](https://minecube-1257119828.cos.ap-guangzhou.myqcloud.com/camera-roaming.png)
 
 ### Simple lighting and shading(blinn-phong)
 
@@ -141,7 +141,19 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ### 3D拾取
 
+使用`Ray-OBB`的方法进行拾取。分为以下3步：
 
+1. 将camera射线变换到世界坐标系。
+2. 求射线与物体相交的面和距离。
+3. 得到最短距离，产生这个距离的即是拾取到的方块。
+
+射线与`OBB`的碰撞检测方法：根据射线进入和离开该物体的顺序来判断。如下，分别是射线**不穿过**和**穿过**的情形：
+
+![](https://minecube-1257119828.cos.ap-guangzhou.myqcloud.com/picking.png)
+
+在所有被射线穿过的方块中，距离最近的（即最前面的）方块就是被拾取的方块。
+
+*注：如果首次运行时该功能出现异常，可能是特定屏幕下的问题，随意改变一次窗口尺寸即可恢复正常。*
 
 
 
@@ -179,12 +191,15 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
   * 模型导入导出
   * 撤销操作的实现
 - 王治鋆 [@Jarvis](https://github.com/Ace-0)
+  - Camera Roaming 实现
+  - Shader 实现
+  - 上层基本CRUD操作
+  - 3D拾取
 - 邱兆丰 [@Mr.Gu 菇生](https://github.com/mgsweet)
 - 徐海洋 [@Hiyoung.Tsui](https://github.com/15331335)
   * 织物模拟（粒子系统）
   * 文本渲染（现代 freetype 库方法）
   * 天空盒（立方体纹理贴图）
-
 
 ---
 
