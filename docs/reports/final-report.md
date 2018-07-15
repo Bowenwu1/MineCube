@@ -108,10 +108,6 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ![](http://or5jajfqs.bkt.clouddn.com/MineCube/shadow.jpg)
 
-### Cloth Simulation
-
-
-
 
 
 ### Model import/export
@@ -126,18 +122,19 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ### Sky Box 
 
-
+用简单对立方体贴图对方式实现。
 
 
 
 ### Display Text
 
-
+使用现代对文本渲染方法，利用 freetype 库导入字体并进行纹理贴图混合。
 
 
 
 ### Cloth Simulation
 
+采用弹簧质点模型，用粒子系统的方式对质点的速度、受力、位置进行模拟。
 
 
 
@@ -161,6 +158,8 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
   BasicOperation(const function<void()> & execute, const function<void()> & undo);
   ```
 
+* 着色器对调试
+  在进行一些纹理贴图时容易出现渲染问题，在调试时难以追踪渲染管线中对数据变化。解决办法是使用 renderDoc 软件进行单帧捕获，从而调试渲染过程中的调用与数据问题。
 
 
 
@@ -182,6 +181,9 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 - 王治鋆 [@Jarvis](https://github.com/Ace-0)
 - 邱兆丰 [@Mr.Gu 菇生](https://github.com/mgsweet)
 - 徐海洋 [@Hiyoung.Tsui](https://github.com/15331335)
+  * 织物模拟（粒子系统）
+  * 文本渲染（现代 freetype 库方法）
+  * 天空盒（立方体纹理贴图）
 
 
 ---
