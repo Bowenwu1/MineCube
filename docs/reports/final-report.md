@@ -28,13 +28,13 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 **我们的成果！**
 
-![presentation](./docs/imgs/demo.gif)
+![presentation](../imgs/demo.gif)
 
-![](./docs/imgs/example/Dinosaur.jpg)
+![](../imgs/example/Dinosaur.jpg)
 
-![](./docs/imgs/example/Warrior.jpg)
+![](../imgs/example/Warrior.jpg)
 
-![](./docs/imgs/example/YellowDuck.jpg)
+![](../imgs/example/YellowDuck.jpg)
 
 ## 开发环境
 
