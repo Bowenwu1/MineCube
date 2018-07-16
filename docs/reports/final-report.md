@@ -2,6 +2,8 @@
 
 项目地址：[MineCube on Github](https://github.com/longjj/MineCube)
 
+notice：直接阅读Markdown体验更好
+
 ## Members
 
 | 学号     | 姓名   | Github                                      |
@@ -18,7 +20,7 @@
 
 > **A sample voxel editor based on OpenGL 3.3+**, inspired by [MagicaVoxel](https://ephtracy.github.io/).
 >
-> Support Windows 10 and Mac OX currently.
+> Support Windows 10 currently.
 >
 > A final project originally of 5 undergraduate students for the course Computer Graphics, SYSU.
 >
@@ -27,6 +29,8 @@
 MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开发的体素编辑器，通过操作小方块创造任何你的所想！
 
 **我们的成果！**
+
+Ps. 下图为动图，可以在附件中查看
 
 ![presentation](../imgs/demo.gif)
 
@@ -40,7 +44,7 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ## 开发环境
 
-**Windows / Mac** + **OpenGL 3.3+**
+**Windows** + **OpenGL 3.3+** **+Visual Studio 2015**
 
 ## 第三方库
 
@@ -51,12 +55,6 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 - [nlohmann::json v3.1.2](https://github.com/nlohmann/json/releases/tag/v3.1.2)
 
 ## 实现功能
-
->
->
->可能有遗漏，继续补充
->
->
 
 ### Basic
 
@@ -125,7 +123,9 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 读入模型文件，使用`nlohmann::json`解析JSON字符串，将其中的信息恢复成CPP Object即完成了模型导入的过程。
 
+**在`Default`中可以导入我们预设的模型，模型保存在`Asset`目录下**
 
+![](https://ws3.sinaimg.cn/large/006tKfTcgy1ftc3eq5e0tj31he0z6grs.jpg)
 
 ### Sky Box 
 
@@ -143,11 +143,11 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ### Display Text
 
-使用现代对文本渲染方法，主要利用了 freetype 库（一个能够用于加载字体并将他们渲染到位图以及提供多种字体相关的操作的软件开发库）导入字体。
+使用现代对文本渲染方法，主要利用了 `freetype` 库（一个能够用于加载字体并将他们渲染到位图以及提供多种字体相关的操作的软件开发库）导入字体。
 
 之后渲染时绑定纹理并进行了贴图混合：
 
-```C++
+```Cpp
 glEnable(GL_BLEND);
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
 ```
@@ -299,7 +299,7 @@ glm::vec3 Cloth::getForce(int i, int j) {
 ![correct shadow](http://or5jajfqs.bkt.clouddn.com/MineCube/temp_shadow.jpg)
 
 
-* 着色器对调试
+* 着色器的调试
   在进行一些纹理贴图时容易出现渲染问题，在调试时难以追踪渲染管线中对数据变化。解决办法是使用 renderDoc 软件进行单帧捕获，从而调试渲染过程中的调用与数据问题。
 
 
@@ -335,10 +335,3 @@ glm::vec3 Cloth::getForce(int i, int j) {
   * 文本渲染
   * 天空盒（纹理映射）
 
----
-
-**Notice**
-
-需要用到的图片到时再打包
-
-字数先随意发挥，等大家都写完，再整体调整
