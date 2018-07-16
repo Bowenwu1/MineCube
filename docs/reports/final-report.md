@@ -34,6 +34,10 @@ Ps. 下图为动图，可以在附件中查看
 
 ![presentation](../imgs/demo.gif)
 
+
+上面为 gif 动图，可以到 `doc/` 下观看具体效果。
+
+
 ![](../imgs/example/Dinosaur.jpg)
 
 ![](../imgs/example/Warrior.jpg)
@@ -53,6 +57,8 @@ Ps. 下图为动图，可以在附件中查看
 - [GLM 0.9.8.5](https://github.com/g-truc/glm/releases/tag/0.9.8.5)
 - [imgui v1.60](https://github.com/ocornut/imgui/releases/tag/v1.60)
 - [nlohmann::json v3.1.2](https://github.com/nlohmann/json/releases/tag/v3.1.2)
+
+[具体部署流程](https://github.com/longjj/MineCube#how-to-run-demo)
 
 ## 实现功能
 
