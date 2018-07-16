@@ -4,6 +4,10 @@
 
 notice：直接阅读Markdown体验更好
 
+[TOC]
+
+
+
 ## Members
 
 | 学号     | 姓名   | Github                                      |
@@ -30,8 +34,6 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 **我们的成果！**
 
-PS. 下图为动图，可以在附件中查看
-
 ![presentation](../imgs/demo.gif)
 
 
@@ -46,6 +48,14 @@ PS. 下图为动图，可以在附件中查看
 
 **点击程序右下角的 `default` 模型选项查看我们已经画好的创意！**
 
+
+
+
+
+
+
+
+
 ## 开发环境
 
 **Windows** + **OpenGL 3.3+** **+Visual Studio 2015**
@@ -59,6 +69,10 @@ PS. 下图为动图，可以在附件中查看
 - [nlohmann::json v3.1.2](https://github.com/nlohmann/json/releases/tag/v3.1.2)
 
 [具体部署流程](https://github.com/longjj/MineCube#how-to-run-demo)
+
+
+
+
 
 ## 实现功能
 
