@@ -29,6 +29,7 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 **我们的成果！**
 
 ![presentation](../imgs/demo.gif)
+上面为 gif 动图，可以到 `doc/` 文件下观看具体效果。
 
 ![](../imgs/example/Dinosaur.jpg)
 
