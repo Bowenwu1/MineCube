@@ -30,7 +30,7 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 **我们的成果！**
 
-Ps. 下图为动图，可以在附件中查看
+PS. 下图为动图，可以在附件中查看
 
 ![presentation](../imgs/demo.gif)
 
