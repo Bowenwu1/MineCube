@@ -10,7 +10,7 @@
 | 15331310 | 吴博文 | [Bob Wu](https://github.com/Bowenwu1)       |
 | 15331304 | 王治鋆 | [Jarvis](https://github.com/Ace-0)          |
 |          |        | [Mr.Gu 菇生](https://github.com/mgsweet)    |
-|          |        | [Hiyoung.Tsui](https://github.com/15331335) |
+| 15331335 | 徐海洋 | [Hiyoung.Tsui](https://github.com/15331335) |
 
 
 
@@ -70,7 +70,8 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 - Display Text（显示文字）
 - Complex Lighting （复杂光照: Gamma矫正）
 - Cloth Simulation（织物模拟）
-- Gravity System and Collision Detection (重力系统与碰撞检测) （织物那里）
+- Gravity System (织物模拟的重力系统) 
+- Particle System（织物模拟的粒子系统）
 - 3D拾取
 
 ## 实现功能点简介
@@ -89,15 +90,19 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ![](https://minecube-1257119828.cos.ap-guangzhou.myqcloud.com/camera-roaming.png)
 
+
+
 ### Simple lighting and shading(blinn-phong)
 
 在场景的右上方有一个光源，对整个物体实现 blinn-phong 的光照效果，使得层次结构更加真实。
 
 ![blinn-phong](http://or5jajfqs.bkt.clouddn.com/MineCube/blinn-phong.jpg)
 
+
+
 ### Texture mapping
 
-
+文本渲染和天空盒的实现中运用了纹理映射的知识。
 
 
 
@@ -106,6 +111,8 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 当部分小立方体被挖去之后，在适当的位置出现阴影，使得层次结构更加真实。
 
 ![](http://or5jajfqs.bkt.clouddn.com/MineCube/shadow.jpg)
+
+
 
 ### Model import/export
 
@@ -119,13 +126,36 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ### Sky Box 
 
-用简单对立方体贴图对方式实现。
+用相对简单的立方体贴图的方式实现。
+
+立方体贴图就是一个包含了6个2D纹理的纹理，每个2D纹理都组成了立方体的一个面：一个有纹理的立方体 。
+
+实验效果如图，在立方体的背景就是天空盒的实现效果：
+
+![](https://github.com/15331335/OpenGLab/blob/master/skybox.png?raw=true)
+
+（在摄像机漫游下可以转动摄像机进一步观察到天空盒的整体效果）
 
 
 
 ### Display Text
 
-使用现代对文本渲染方法，利用 freetype 库导入字体并进行纹理贴图混合。
+使用现代对文本渲染方法，主要利用了 freetype 库（一个能够用于加载字体并将他们渲染到位图以及提供多种字体相关的操作的软件开发库）导入字体。
+
+之后渲染时绑定纹理并进行了贴图混合：
+
+```C++
+glEnable(GL_BLEND);
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
+```
+
+在开始时有显示软件名称并渐隐的效果，实验截图如下：
+
+![](https://github.com/15331335/OpenGLab/blob/master/text.png?raw=true)
+
+（在切换 Mode 时也会显示相应的名称并渐隐，效果类似，同上）
+
+
 
 ### Complex Lighting （复杂光照: Gamma矫正）
 
@@ -160,9 +190,60 @@ void main()
 
 ### Cloth Simulation
 
-采用弹簧质点模型，用粒子系统的方式对质点的速度、受力、位置进行模拟。
+采用弹簧质点模型，用**粒子系统**的方式对质点的速度、受力、位置进行模拟，其中受力也包含了**重力系统**。
 
-### Gravity System and Collision Detection (重力系统与碰撞检测) （织物那里）
+弹簧质点模型是利用牛顿运动定律来模拟物体变形的方法，该模型是一个虚拟质点组成的网格，质点之间用无质量的、自然长度不为零的弹簧连接。其连接关系有以下三种：
+
+1. 连接质点 `[i, j]` 与 `[i+1,j]`，`[i, j]` 与 `[i,j+1]` 的弹簧，称为结构弹簧
+2. 连接质点 `[i, j]` 与 `[i+1,j+1]`，`[i+1,j]` 与 `[i,j+1]` 的弹簧，称为剪切弹簧
+3. 连接质点 `[i, j]` 与 `[i+2,j]`，`[i, j]` 与 `[i, j+2]` 的弹簧，称为弯曲弹簧
+
+这三种弹簧分别用于与结构力（拉力或压力）、剪力和弯矩相关的计算（弹簧的弹性力遵从Hooke定律）。
+
+弹簧质点运动时受到内力和外力和影响，内力包括弹簧的弹性力和阻尼力，外力包括重力以及空气阻力等。 
+
+一个简要的核心代码如下：
+
+```c++
+void Cloth::simulate(float stepSize) {
+	// CODE ...
+
+	for (int i = 0; i < meshResolution; i++) {
+		for (int j = 0; j < meshResolution; j++) {
+			glm::vec3 newVelocity = getVelocity(i, j) + getForce(i, j) * stepSize / mass;
+			setVelocity(i, j, newVelocity);
+		}
+	}
+
+	// Notice that the updated velocity above is used for better numerical stability.
+	for (int i = 0; i < meshResolution; i++) {
+		for (int j = 0; j < meshResolution; j++) {
+			glm::vec3 newPosition = getPosition(i, j) + getVelocity(i, j) * stepSize;
+			setPosition(i, j, newPosition);
+		}
+	}
+	
+	// CODE ...
+}
+
+glm::vec3 Cloth::getForce(int i, int j) {
+	glm::vec3 F_spring = getAllSprings(i, j) 
+		+ getGravityForce(i, j)
+		+ getDampingForce(i, j)
+		+ getViscousForce(i, j);
+	return F_spring;
+}
+```
+
+在软件启动开始时模拟了幕布拉开的效果，实验截图如下：
+
+![](https://github.com/15331335/OpenGLab/blob/master/cloth.png?raw=true)
+
+参考文献：
+
+- Baraff D, Witkin A. Large steps in cloth simulation[C]// Conference on Computer Graphics & Interactive Techniques. 1998:43-54. 
+
+
 
 ### 3D拾取
 
@@ -241,8 +322,8 @@ void main()
 - 邱兆丰 [@Mr.Gu 菇生](https://github.com/mgsweet)
 - 徐海洋 [@Hiyoung.Tsui](https://github.com/15331335)
   * 织物模拟（粒子系统）
-  * 文本渲染（现代 freetype 库方法）
-  * 天空盒（立方体纹理贴图）
+  * 文本渲染
+  * 天空盒（纹理映射）
 
 ---
 
