@@ -1,4 +1,4 @@
-# Final Report
+# Final Report For MineCube
 
 项目地址：[MineCube on Github](https://github.com/longjj/MineCube)
 
