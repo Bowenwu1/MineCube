@@ -55,6 +55,7 @@ CubeManager::CubeManager(unsigned int width, unsigned int height,
 
     rotateAngleAroundY = 0;
     rotateAngleAroundX = 0;
+	rotateAngleAroundZ = 0;
 }
 
 CubeManager::~CubeManager() {
@@ -156,7 +157,8 @@ glm::mat4 CubeManager::calculateModelMat4(const unsigned int& id) {
     glm::mat4 model;
     model = glm::rotate(model, glm::radians(rotateAngleAroundY), yAxis);
     model = glm::rotate(model, glm::radians(rotateAngleAroundX), xAxis);
-    return glm::translate(model, cubesOriginalPosition[id]);
+	model = glm::rotate(model, glm::radians(rotateAngleAroundZ), zAxis);
+	return glm::translate(model, cubesOriginalPosition[id]);
 }
 
 void CubeManager::setAllShaderId(const GLuint& shaderID) {
@@ -177,6 +179,112 @@ void CubeManager::rotateHorizontal(const GLfloat& offset) {
     this->refreshModelMat4();
 }
 
+void CubeManager::rotateAll(const glm::vec2& offset) {
+	if (315.0f <= rotateAngleAroundX || rotateAngleAroundX < 45.0f) {
+		if (315.0f <= rotateAngleAroundY || rotateAngleAroundY < 45.0f) {
+			if (315.0f <= rotateAngleAroundZ || rotateAngleAroundZ < 45.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (45.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 135.0f) {
+				rotateAngleAroundX += offset.y * rotateSensivitiy;
+				rotateAngleAroundY += offset.x * rotateSensivitiy;
+			}
+			else if (135.0f <= rotateAngleAroundZ && rotateAngleAroundZ < 225.0f) {
+				rotateAngleAroundY += offset.y * rotateSensivitiy;
+				rotateAngleAroundX += offset.x * rotateSensivitiy;
+			}
+			else {
+				rotateAngleAroundY += offset.y * rotateSensivitiy;
+				rotateAngleAroundX += offset.x * rotateSensivitiy;
+			}
+		}
+		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
+			rotateAngleAroundZ += offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+		else if (135.0f <= rotateAngleAroundY && rotateAngleAroundY < 225.0f) {
+			rotateAngleAroundX -= offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+		else {
+			rotateAngleAroundZ -= offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+	}
+	else if (45.0f <= rotateAngleAroundX && rotateAngleAroundX < 135.0f) {
+		if (315.0f <= rotateAngleAroundY || rotateAngleAroundY < 45.0f) {
+			rotateAngleAroundX += offset.y * rotateSensivitiy;
+			rotateAngleAroundZ -= offset.x * rotateSensivitiy;
+		}
+		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
+			rotateAngleAroundX += offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+		else if (135.0f <= rotateAngleAroundY && rotateAngleAroundY < 225.0f) {
+			rotateAngleAroundX -= offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+		else {
+			rotateAngleAroundX += offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+	}
+	else if (135.0f <= rotateAngleAroundX && rotateAngleAroundX < 225.0f) {
+		if (315.0f <= rotateAngleAroundY || rotateAngleAroundY < 45.0f) {
+			rotateAngleAroundX += offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
+			rotateAngleAroundZ -= offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+		else if (135.0f <= rotateAngleAroundY && rotateAngleAroundY < 225.0f) {
+			rotateAngleAroundX -= offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+		else {
+			rotateAngleAroundZ += offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+	}
+	else {
+		if (315.0f <= rotateAngleAroundY || rotateAngleAroundY < 45.0f) {
+			rotateAngleAroundX += offset.y * rotateSensivitiy;
+			rotateAngleAroundZ += offset.x * rotateSensivitiy;
+		}
+		else if (45.0f <= rotateAngleAroundY && rotateAngleAroundY < 135.0f) {
+			rotateAngleAroundZ += offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+		else if (135.0f <= rotateAngleAroundY && rotateAngleAroundY < 225.0f) {
+			rotateAngleAroundX -= offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+		else {
+			rotateAngleAroundZ += offset.y * rotateSensivitiy;
+			rotateAngleAroundY += offset.x * rotateSensivitiy;
+		}
+	}
+
+	if (rotateAngleAroundX > 360.0f) rotateAngleAroundX -= 360.0f; if (rotateAngleAroundX < 0.0f) rotateAngleAroundX = 360.0f - rotateAngleAroundX;
+	if (rotateAngleAroundY > 360.0f) rotateAngleAroundY -= 360.0f; if (rotateAngleAroundY < 0.0f) rotateAngleAroundY = 360.0f - rotateAngleAroundY;
+	if (rotateAngleAroundZ > 360.0f) rotateAngleAroundZ -= 360.0f; if (rotateAngleAroundZ < 0.0f) rotateAngleAroundZ = 360.0f - rotateAngleAroundZ;
+	//cout << rotateAngleAroundX << ' ' << rotateAngleAroundY << ' ' << rotateAngleAroundZ << endl;
+	for (unsigned int i = 0; i < totalCube; ++i) {
+		if (!cubes[i]->isDeleted()) {
+
+			glm::mat4 model;
+			model = glm::rotate(model, glm::radians(rotateAngleAroundY), yAxis);
+			model = glm::rotate(model, glm::radians(rotateAngleAroundX), xAxis);
+			model = glm::rotate(model, glm::radians(rotateAngleAroundZ), zAxis);
+			glm::mat4 final_mat = glm::translate(model, cubesOriginalPosition[i]);
+
+			cubes[i]->setModelMat4(final_mat);
+		}
+	}
+}
+
 void CubeManager::setRotateSensivity(const GLfloat& rotateSensivitiy) {
     this->rotateSensivitiy = rotateSensivitiy;
 }
@@ -187,6 +295,7 @@ glm::mat4 CubeManager::getModelMat4(unsigned int x, unsigned int y,
 }
 const glm::vec3 CubeManager::yAxis = glm::vec3(0.0f, 1.0f, 0.0f);
 const glm::vec3 CubeManager::xAxis = glm::vec3(1.0f, 0.0f, 0.0f);
+const glm::vec3 CubeManager::zAxis = glm::vec3(0.0f, 0.0f, 1.0f);
 const glm::vec3 CubeManager::infPos = glm::vec3(3000.0f, 3000.0f, 3000.0f);
 
 void CubeManager::dump(string model_path) {

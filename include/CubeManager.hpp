@@ -34,6 +34,7 @@ class CubeManager {
    private:
     static const glm::vec3 yAxis;
     static const glm::vec3 xAxis;
+    static const glm::vec3 zAxis;
     static const glm::vec3 infPos;
     static const string model_saved_dir;
     unsigned int width;   // x
@@ -46,6 +47,7 @@ class CubeManager {
     // glm::vec3 rotateAngle;
     GLfloat rotateAngleAroundX;
     GLfloat rotateAngleAroundY;
+    GLfloat rotateAngleAroundZ;
     GLfloat rotateSensivitiy = 1.0f;
 
     GLBufferManager& glBufferManager;
@@ -246,6 +248,13 @@ class CubeManager {
      */
     void rotateVertical(const GLfloat& offset);
 
+    /**
+     * @brief rotate cubes
+     * 
+     * @param offset 
+     */
+	void CubeManager::rotateAll(const glm::vec2& offset);
+	
     /**
      * @brief Set the Rotate Sensivity object
      * 
