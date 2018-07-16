@@ -62,7 +62,6 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 - Simple lighting and shading(blinn phong)
 - Texture mapping
 - Shadow mapping
-- Cloth Simulation
 - Model import/export
 
 ### Bonus
@@ -71,8 +70,8 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 - Display Text（显示文字）
 - Complex Lighting （复杂光照: Gamma矫正）
 - Cloth Simulation（织物模拟）
+-  Gravity System and Collision Detection (重力系统与碰撞检测) （织物那里）
 - 3D拾取
-- 几何着色器
 
 ## 实现功能点简介
 
@@ -108,12 +107,6 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ![](http://or5jajfqs.bkt.clouddn.com/MineCube/shadow.jpg)
 
-### Cloth Simulation
-
-
-
-
-
 ### Model import/export
 
 可以将创作的结果保存/载入，这里我们没有利用传统的`obj`格式模型，而是将模型格式定义为JSON
@@ -134,9 +127,44 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 
 
+### Complex Lighting （复杂光照: Gamma矫正）
+
+人眼看到颜色的亮度更倾向于顶部的灰阶，监视器使用的也是一种指数关系（电压的2.2次幂），所以物理亮度通过监视器能够被映射到顶部的非线性亮度，这个非线性映射的确可以让亮度在我们眼中看起来更好，但当渲染图像时，会产生一个问题：我们在应用中配置的亮度和颜色是基于监视器所看到的，这样所有的配置实际上是非线性的亮度/颜色配置。
+
+
+
+![Gamma 校正曲线图](https://learnopengl-cn.github.io/img/05/02/gamma_correction_gamma_curves.png)
+
+Gamma 校正( Gamma Correction )的思路是在最终的颜色输出上应用监视器Gamma的倒数。再看上面的Gamma 曲线图，你会有一个短划线，它是监视器Gamma曲线的翻转曲线。我们在颜色显示到监视器的时候把每个颜色输出都加上这个翻转的Gamma曲线，这样应用了监视器 Gamma 以后最终的颜色将会变为线性的。我们所得到的中间色调就会更亮，所以虽然监视器使它们变暗，但是我们又将其平衡回来了。
+
+
+
+只需要在 Blinn-Phong shader 的片段着色器最后加上下面代码既可以实现 Gamma 校正。
+
+```
+void main()
+{
+    // do super fancy lighting 
+    [...]
+    // apply gamma correction
+    float gamma = 2.2;
+    fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));
+}
+```
+
+实验结果如下：
+
+![gamma_correction](http://or5jajfqs.bkt.clouddn.com/MineCube/gamma_correction.jpg)
+
 
 
 ### Cloth Simulation
+
+
+
+
+
+###  Gravity System and Collision Detection (重力系统与碰撞检测) （织物那里）
 
 
 
@@ -147,8 +175,6 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 
 
-
-### 几何着色器
 
 
 
@@ -161,19 +187,37 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
   BasicOperation(const function<void()> & execute, const function<void()> & undo);
   ```
 
+* 大量立方体渲染导致的渲染性能下降
+
+  我们的初始方案是让每一个小立方体独自渲染自己，我们很快就会因为绘制调用过多而达到性能瓶颈，最多只能渲染出一个 10x10x10 的大立方体，这样远远不能达到创作的要求。与绘制顶点本身相比，使用 glDrawArrays 或 glDrawElements 函数告诉 GPU 去绘制你的顶点数据会消耗更多的性能，因为 OpenGL 在绘制顶点数据之前需要做很多准备工作（比如告诉GPU该从哪个缓冲读取数据，从哪寻找顶点属性，而且这些都是在相对缓慢的 CPU 到 GPU 总线上进行的）。所以，即便渲染顶点非常快，命令GPU去渲染却未必。
+
+  我们采用了是**实例化( Instancing )**的计算机图形学方法，将数据**一次性发送给GPU**，然后在顶层（CubeManager）使用一个绘制函数让 OpenGL 利用这些数据绘制多个物体，从而极大地提升了渲染的效率。目前项目可以流畅渲染 20x20x20 的立方体，当编译出来的是 release 版本的程序的时候， **30x30x30 的大立方体也可以流畅支持。**
+
+  ![](http://or5jajfqs.bkt.clouddn.com/MineCube/architecture.jpg)
+
+* 阴影支持 bias 过大
+
+  使用作业的 Phong shader 的时候，因为小立方体之间的间隔较小，shader 中的 bias 设置得过大 (0.005) , 使得一些部分的渲染因为 bias 过大而认为没有处于阴影之中。
 
 
+![error_shadow](http://or5jajfqs.bkt.clouddn.com/MineCube/error_shadow.jpg)
+
+
+
+​	将 bias 适当调小后让阴影可以正常渲染。	
+
+![correct shadow](http://or5jajfqs.bkt.clouddn.com/MineCube/temp_shadow.jpg)
 
 ## 小组成员分工
 
 - 罗剑杰 [@Johnny Law](https://longjj.com/)
   - Cmake 配置
-  -  Shadow 实现
-  -  blinn-phong 光照实现
+  - Shadow Map 实现
+  - blinn-phong 光照实现
   - Gamma 校正
-  - 底层框架设计 
+  - 底层逻辑设计 
   - 实例化渲染 
-  - Face Culling
+  - 面剔除
 - 吴博文 [@Bob Wu](https://github.com/Bowenwu1)
   * 初版底层模块构建
   * 方块增删改查
