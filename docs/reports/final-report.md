@@ -139,7 +139,7 @@ Gamma 校正( Gamma Correction )的思路是在最终的颜色输出上应用监
 
 
 
-只需要在 Blinn-Phong shader 的片段着色器最后加上下面代码既可以实现 Gamma 校正。
+只需要在 Blinn-Phong shader 的片段着色器最后加上下面代码即可以实现 Gamma 校正。
 
 ```
 void main()
