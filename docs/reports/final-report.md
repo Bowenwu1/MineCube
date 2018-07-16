@@ -73,6 +73,7 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 - Gravity System (织物模拟的重力系统) 
 - Particle System（织物模拟的粒子系统）
 - 3D拾取
+- 帧缓存特效
 
 ## 实现功能点简介
 
@@ -319,7 +320,7 @@ glm::vec3 Cloth::getForce(int i, int j) {
   - Shader 实现
   - 上层基本CRUD操作
   - 3D拾取
-- 邱兆丰 [@Mr.Gu 菇生](https://github.com/mgsweet)
+- 邱兆丰 [@mgsweet](http://www.mgsweet.com)
   - GUI实现
   - Undo和Redo上层实现
   - 上层批量CRUD优化
