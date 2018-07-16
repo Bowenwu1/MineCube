@@ -4,13 +4,13 @@
 
 ## Members
 
-| 学号       | 姓名   | Github                                   |
-| -------- | ---- | ---------------------------------------- |
-| 15331229 | 罗剑杰  | [Johnny Law](https://longjj.com/)        |
-| 15331310 | 吴博文  | [Bob Wu](https://github.com/Bowenwu1)    |
-|          |      | [Jarvis](https://github.com/Ace-0)       |
-|          |      | [Mr.Gu 菇生](https://github.com/mgsweet)   |
-|          |      | [Hiyoung.Tsui](https://github.com/15331335) |
+| 学号     | 姓名   | Github                                      |
+| -------- | ------ | ------------------------------------------- |
+| 15331229 | 罗剑杰 | [Johnny Law](https://longjj.com/)           |
+| 15331310 | 吴博文 | [Bob Wu](https://github.com/Bowenwu1)       |
+| 15331304 | 王治鋆 | [Jarvis](https://github.com/Ace-0)          |
+|          |        | [Mr.Gu 菇生](https://github.com/mgsweet)    |
+|          |        | [Hiyoung.Tsui](https://github.com/15331335) |
 
 
 
@@ -70,7 +70,7 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 - Display Text（显示文字）
 - Complex Lighting （复杂光照: Gamma矫正）
 - Cloth Simulation（织物模拟）
--  Gravity System and Collision Detection (重力系统与碰撞检测) （织物那里）
+- Gravity System and Collision Detection (重力系统与碰撞检测) （织物那里）
 - 3D拾取
 
 ## 实现功能点简介
@@ -85,9 +85,9 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ### Camera Roaming
 
+按`V`键可以切换FPS模式，进行自由移动和观察。使用`WASD`移动位置，鼠标移动来控制观察方向。
 
-
-
+![](https://minecube-1257119828.cos.ap-guangzhou.myqcloud.com/camera-roaming.png)
 
 ### Simple lighting and shading(blinn-phong)
 
@@ -119,13 +119,13 @@ MineCube是一款受到[MagicaVoxel](https://ephtracy.github.io/)启发的而开
 
 ### Sky Box 
 
-
+用简单对立方体贴图对方式实现。
 
 
 
 ### Display Text
 
-
+使用现代对文本渲染方法，利用 freetype 库导入字体并进行纹理贴图混合。
 
 ### Complex Lighting （复杂光照: Gamma矫正）
 
@@ -160,15 +160,23 @@ void main()
 
 ### Cloth Simulation
 
+采用弹簧质点模型，用粒子系统的方式对质点的速度、受力、位置进行模拟。
 
+使用`Ray-OBB`的方法进行拾取。分为以下3步：
 
+1. 将camera射线变换到世界坐标系。
+2. 求射线与物体相交的面和距离。
+3. 得到最短距离，产生这个距离的即是拾取到的方块。
 
+射线与`OBB`的碰撞检测方法：根据射线进入和离开该物体的顺序来判断。如下，分别是射线**不穿过**和**穿过**的情形：
 
-###  Gravity System and Collision Detection (重力系统与碰撞检测) （织物那里）
+![](https://minecube-1257119828.cos.ap-guangzhou.myqcloud.com/picking.png)
 
+在所有被射线穿过的方块中，距离最近的（即最前面的）方块就是被拾取的方块。
 
+*注：如果首次运行时该功能出现异常，可能是特定屏幕下的问题，随意改变一次窗口尺寸即可恢复正常。*
 
-
+### Gravity System and Collision Detection (重力系统与碰撞检测) （织物那里）
 
 ### 3D拾取
 
@@ -199,14 +207,17 @@ void main()
 
   使用作业的 Phong shader 的时候，因为小立方体之间的间隔较小，shader 中的 bias 设置得过大 (0.005) , 使得一些部分的渲染因为 bias 过大而认为没有处于阴影之中。
 
-
 ![error_shadow](http://or5jajfqs.bkt.clouddn.com/MineCube/error_shadow.jpg)
 
-
-
-​	将 bias 适当调小后让阴影可以正常渲染。	
+​  将 bias 适当调小后让阴影可以正常渲染。	
 
 ![correct shadow](http://or5jajfqs.bkt.clouddn.com/MineCube/temp_shadow.jpg)
+
+
+* 着色器对调试
+  在进行一些纹理贴图时容易出现渲染问题，在调试时难以追踪渲染管线中对数据变化。解决办法是使用 renderDoc 软件进行单帧捕获，从而调试渲染过程中的调用与数据问题。
+
+
 
 ## 小组成员分工
 
@@ -224,9 +235,15 @@ void main()
   * 模型导入导出
   * 撤销操作的实现
 - 王治鋆 [@Jarvis](https://github.com/Ace-0)
+  - Camera Roaming 实现
+  - Shader 实现
+  - 上层基本CRUD操作
+  - 3D拾取
 - 邱兆丰 [@Mr.Gu 菇生](https://github.com/mgsweet)
 - 徐海洋 [@Hiyoung.Tsui](https://github.com/15331335)
-
+  * 织物模拟（粒子系统）
+  * 文本渲染（现代 freetype 库方法）
+  * 天空盒（立方体纹理贴图）
 
 ---
 
