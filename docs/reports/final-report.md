@@ -9,7 +9,7 @@
 | 15331229 | 罗剑杰 | [Johnny Law](https://longjj.com/)           |
 | 15331310 | 吴博文 | [Bob Wu](https://github.com/Bowenwu1)       |
 | 15331304 | 王治鋆 | [Jarvis](https://github.com/Ace-0)          |
-|          |        | [Mr.Gu 菇生](https://github.com/mgsweet)    |
+| 15331260 | 邱兆丰 | [mgsweet](http://www.mgsweet.com)    |
 | 15331335 | 徐海洋 | [Hiyoung.Tsui](https://github.com/15331335) |
 
 
@@ -320,6 +320,11 @@ glm::vec3 Cloth::getForce(int i, int j) {
   - 上层基本CRUD操作
   - 3D拾取
 - 邱兆丰 [@Mr.Gu 菇生](https://github.com/mgsweet)
+  - GUI实现
+  - Undo和Redo上层实现
+  - 上层批量CRUD优化
+  - 帧缓存特效
+  - 阴影效果修复
 - 徐海洋 [@Hiyoung.Tsui](https://github.com/15331335)
   * 织物模拟（粒子系统）
   * 文本渲染
